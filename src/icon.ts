@@ -1,21 +1,14 @@
-import chalk from 'chalk';
+import chalk, { Chalk } from 'chalk';
 
 // https://lospec.com/palette-list/sobeachy8
 const palette = {
-    yellow: '#e5d988',
-    white: '#e3d5cc',
-    gray: '#bad5cc',
-    lightBlue: '#6dd5cc'
-}
+    yellow: chalk.hex('#e5d988'),
+    white: chalk.hex('#e3d5cc'),
+    gray: chalk.hex('#bad5cc'),
+    lightBlue: chalk.hex('#6dd5cc')
+};
 
-const chalkHex = {
-    yellow: chalk.hex(palette.yellow),
-    white: chalk.hex(palette.white),
-    gray: chalk.hex(palette.gray),
-    lightBlue: chalk.hex(palette.lightBlue)
-}
-
-const clear = chalkHex.yellow(`
+const clear = palette.yellow(`
     \\ | /
   '-.´ \`.-'
 -==|     |==-
@@ -23,70 +16,81 @@ const clear = chalkHex.yellow(`
     / | \\
 `);
 
-const cloudy = chalkHex.yellow(`
+const cloudy =
+    palette.yellow(`
     \\ | /
   '-.´ \`.`) +
-chalkHex.white(`__\n`) +
-chalkHex.yellow(`-==|  `) + chalkHex.white(`_(   )_\n   _`) +
-chalkHex.yellow(`'`) + 
-chalkHex.white(`(  ,    )_
+    palette.white(`__\n`) +
+    palette.yellow(`-==|  `) +
+    palette.white(`_(   )_\n   _`) +
+    palette.yellow(`'`) +
+    palette.white(`(  ,    )_
   (_______,___ )
 `);
 
-const overcast = chalkHex.white(`
+const overcast = palette.white(`
       ___
     _(   )_
  _(  ,     )_
 (_______,___ )
 `);
 
-const fog = chalkHex.white(`
+const fog =
+    palette.white(`
       ___
     _(   )_
  _(  ,     )_
 (________,____)
 `) +
-chalkHex.gray(` ~~ ~~~ ~~~ ~~
+    palette.gray(` ~~ ~~~ ~~~ ~~
    ~~ ~~ ~~
 `);
 
-const drizzle = chalkHex.white(`
+const drizzle =
+    palette.white(`
       ___
     _(   )_
  _(  ,     )_
 (_______,___ )
-`) + chalkHex.lightBlue(` ´ ´ ´ ´ ´ ´
+`) +
+    palette.lightBlue(` ´ ´ ´ ´ ´ ´
     ´ ´ ´
 `);
 
-const freezingDrizzle = chalkHex.white(`
+const freezingDrizzle =
+    palette.white(`
       ___
     _(   )_
  _(  ,     )_
 (_______,___ )
-`) + chalkHex.lightBlue(` * * * * * *
+`) +
+    palette.lightBlue(` * * * * * *
     * * *
 `);
 
-const rain = chalkHex.white(`
+const rain =
+    palette.white(`
       ___
     _(   )_
  _(  ,     )_
 (_______,___ )
-`) + chalkHex.lightBlue(` / / / / / /
+`) +
+    palette.lightBlue(` / / / / / /
     / / /
 `);
 
-const freezingRain = chalkHex.white(`
+const freezingRain =
+    palette.white(`
       ___
     _(   )_
  _(  ,     )_
 (_______,___ )
-`) + chalkHex.lightBlue(` */ */ */ */ 
+`) +
+    palette.lightBlue(` */ */ */ */ 
   */ */ */
 `);
 
-const snow = chalkHex.lightBlue(`    .      .
+const snow = palette.lightBlue(`    .      .
     _\\/  \\/_
      _\\/\\/_ 
  _\\_\\_\\/\\/_/_/_
@@ -96,16 +100,22 @@ const snow = chalkHex.lightBlue(`    .      .
     '      '
 `);
 
-const thunderstorm = chalkHex.white(`      ____
+const thunderstorm =
+    palette.white(`      ____
     _(    )__
  _(  ,       )_
-(_______,_____ )`) + chalkHex.lightBlue(`
-  /`)+ chalkHex.yellow(` _/ _/`) + chalkHex.lightBlue(` / / 
- / `)+ chalkHex.yellow(`/__/`) + chalkHex.lightBlue(`  /\n`) 
-+ chalkHex.yellow(`  //
+(_______,_____ )`) +
+    palette.lightBlue(`
+  /`) +
+    palette.yellow(` _/ _/`) +
+    palette.lightBlue(` / / 
+ / `) +
+    palette.yellow(`/__/`) +
+    palette.lightBlue(`  /\n`) +
+    palette.yellow(`  //
  /´`);
 
-export const icon: Record<string, string> = {
+export const icon = {
     clear,
     cloudy,
     overcast,
