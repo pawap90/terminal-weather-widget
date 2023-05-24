@@ -14,5 +14,8 @@
         "@types/node": "^20.2.3",
         "ts-node-dev": "^2.0.0",
         "typescript": "^5.0.4"
+    },
+    "dependencies": {
+        "chalk": "^4.1.2"
     }
 }
