@@ -1,5 +1,6 @@
 import { icon } from './icon';
-type WatherInfo = {
+
+export type WeatherInfo = {
     temperature: number;
     time: Date;
     windSpeed: number;
@@ -12,7 +13,7 @@ type WatherInfo = {
 export async function getCurrentWeather(
     lat: number,
     lon: number
-): Promise<WatherInfo> {
+): Promise<WeatherInfo> {
     const response = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
     );
@@ -25,7 +26,7 @@ export async function getCurrentWeather(
         weatherCodeData.find((wd) => wd.code == weathercode) ??
         weatherDataNotFound;
 
-    const weatherInfo: WatherInfo = {
+    const weatherInfo: WeatherInfo = {
         temperature,
         time: new Date(time),
         windSpeed: windspeed,
