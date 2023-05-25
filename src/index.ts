@@ -23,8 +23,6 @@ program
 
 program.parse(process.argv);
 
-console.log(options);
-
 (async () => {
     const weatherInfo = await getCurrentWeather(
         options.lat,
