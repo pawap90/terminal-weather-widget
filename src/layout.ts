@@ -1,5 +1,7 @@
 import { TableUserConfig, getBorderCharacters, table } from 'table';
 import type { WeatherInfo } from './weather';
+import { palette } from "./color";
+
 
 export function format(weatherInfo: WeatherInfo): string {
     const tableData = [
@@ -13,6 +15,7 @@ export function format(weatherInfo: WeatherInfo): string {
             {
                 alignment: 'left',
                 paddingLeft: 4,
+                paddingRight: 4,
                 width: 16,
                 verticalAlignment: 'middle',
                 wrapWord: true
@@ -36,7 +39,7 @@ export function format(weatherInfo: WeatherInfo): string {
 
 function formatWeatherData(weatherInfo: WeatherInfo) {
     return (
-        `${weatherInfo.temperature}°C\n` +
+        palette.pink.inverse(` ${weatherInfo.temperature}°C .\n`) +
         `${weatherInfo.description}\n\n` +
         `Wind ${weatherInfo.wind.icon}\n` +
         `${weatherInfo.wind.speed} km/h `
@@ -48,10 +51,10 @@ function formatWeatherData(weatherInfo: WeatherInfo) {
  * E.g: Wed, May 24, 2023, 08:20 PM
  */
 function formatDate(date: Date): string {
-    return date.toLocaleString('en-US', {
+    return palette.gray(date.toLocaleString('en-US', {
         weekday: 'short',
         day: '2-digit',
         month: 'short',
         year: 'numeric'
-    });
+    }));
 }
