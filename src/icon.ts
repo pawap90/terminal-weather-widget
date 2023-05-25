@@ -8,8 +8,7 @@ const palette = {
     lightBlue: chalk.hex('#6dd5cc')
 };
 
-const clear = palette.yellow(`
-    \\ | /
+const clear = palette.yellow(`    \\ | /
   '-.´ \`.-'
 -==|     |==-
   .-'._.'-.
@@ -17,8 +16,7 @@ const clear = palette.yellow(`
 `);
 
 const cloudy =
-    palette.yellow(`
-    \\ | /
+    palette.yellow(`    \\ | /
   '-.´ \`.`) +
     palette.white(`__\n`) +
     palette.yellow(`-==|  `) +
@@ -28,16 +26,14 @@ const cloudy =
   (_______,___ )
 `);
 
-const overcast = palette.white(`
-      ___
+const overcast = palette.white(`      ___
     _(   )_
  _(  ,     )_
 (_______,___ )
 `);
 
 const fog =
-    palette.white(`
-      ___
+    palette.white(`      ___
     _(   )_
  _(  ,     )_
 (________,____)
@@ -47,8 +43,7 @@ const fog =
 `);
 
 const drizzle =
-    palette.white(`
-      ___
+    palette.white(`      ___
     _(   )_
  _(  ,     )_
 (_______,___ )
@@ -58,8 +53,7 @@ const drizzle =
 `);
 
 const freezingDrizzle =
-    palette.white(`
-      ___
+    palette.white(`      ___
     _(   )_
  _(  ,     )_
 (_______,___ )
@@ -69,8 +63,7 @@ const freezingDrizzle =
 `);
 
 const rain =
-    palette.white(`
-      ___
+    palette.white(`      ___
     _(   )_
  _(  ,     )_
 (_______,___ )
@@ -80,8 +73,7 @@ const rain =
 `);
 
 const freezingRain =
-    palette.white(`
-      ___
+    palette.white(`      ___
     _(   )_
  _(  ,     )_
 (_______,___ )
