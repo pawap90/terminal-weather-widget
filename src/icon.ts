@@ -1,12 +1,4 @@
-import chalk, { Chalk } from 'chalk';
-
-// https://lospec.com/palette-list/sobeachy8
-const palette = {
-    yellow: chalk.hex('#e5d988'),
-    white: chalk.hex('#e3d5cc'),
-    gray: chalk.hex('#bad5cc'),
-    lightBlue: chalk.hex('#6dd5cc')
-};
+import { palette } from "./color";
 
 const clear = palette.yellow(`    \\ | /
   '-.´ \`.-'
