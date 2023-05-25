@@ -1,42 +1,118 @@
 import { icon } from './icon';
 
 export type WeatherInfo = {
-    temperature: number;
     time: Date;
-    windSpeed: number;
-    windDirection: number;
+    temperature: number;
     code: number;
     icon: string;
+    emoji: string;
     description: string;
+    wind: {
+        speed: number;
+        direction: number;
+        icon: string;
+    };
 };
 
 export async function getCurrentWeather(
     lat: number,
-    lon: number
+    lon: number,
+    timezone: string = 'GMT'
 ): Promise<WeatherInfo> {
     const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=${timezone}`
     );
     const data = await response.json();
 
     const { temperature, time, windspeed, winddirection, weathercode } =
         data.current_weather;
 
-    const { description, icon } =
+    const { description, icon, emoji } =
         weatherCodeData.find((wd) => wd.code == weathercode) ??
         weatherDataNotFound;
 
     const weatherInfo: WeatherInfo = {
         temperature,
         time: new Date(time),
-        windSpeed: windspeed,
-        windDirection: winddirection,
         code: weathercode,
         icon,
-        description
+        emoji,
+        description,
+        wind: {
+            speed: windspeed,
+            direction: winddirection,
+            icon: getWindDirectionIcon(winddirection)
+        }
     };
 
     return weatherInfo;
+}
+
+type Direction =
+    | 'north'
+    | 'northEast'
+    | 'east'
+    | 'southEast'
+    | 'south'
+    | 'southWest'
+    | 'west'
+    | 'northWest';
+
+type WindDirection = Record<
+    Direction,
+    {
+        icon: string;
+        degrees: { from: number; to: number }[];
+    }
+>;
+
+const windDirectionData: WindDirection = {
+    north: {
+        icon: '↑',
+        degrees: [
+            { from: 0, to: 22.5 },
+            { from: 337.5, to: 360 }
+        ]
+    },
+    northEast: {
+        icon: '↗',
+        degrees: [{ from: 22.5, to: 67.5 }]
+    },
+    east: {
+        icon: '→',
+        degrees: [{ from: 67.5, to: 112.5 }]
+    },
+    southEast: {
+        icon: '↘',
+        degrees: [{ from: 112.5, to: 157.5 }]
+    },
+    south: {
+        icon: '↓',
+        degrees: [{ from: 157.5, to: 202.5 }]
+    },
+    southWest: {
+        icon: '↙',
+        degrees: [{ from: 202.5, to: 247.5 }]
+    },
+    west: {
+        icon: '←',
+
+        degrees: [{ from: 247.5, to: 292.5 }]
+    },
+    northWest: {
+        icon: '↖',
+        degrees: [{ from: 292.5, to: 337.5 }]
+    }
+};
+
+function getWindDirectionIcon(windDirection: number): string {
+    const result = Object.values(windDirectionData).find((d) => {
+        return d.degrees.some((degrees) => {
+            return windDirection >= degrees.from && windDirection <= degrees.to;
+        });
+    });
+
+    return result?.icon ?? '';
 }
 
 /**
@@ -57,116 +133,116 @@ const weatherCodeData = [
     },
     {
         code: 51,
-        description: 'Drizzle: Light intensity',
+        description: 'Light drizzle',
         emoji: '🌧️',
         icon: icon.drizzle
     },
     {
         code: 53,
-        description: 'Drizzle: Moderate intensity',
+        description: 'Moderate drizzle',
         emoji: '🌧️',
         icon: icon.drizzle
     },
     {
         code: 55,
-        description: 'Drizzle: Dense intensity',
+        description: 'Dense drizzle',
         emoji: '🌧️',
         icon: icon.drizzle
     },
     {
         code: 56,
-        description: 'Freezing Drizzle: Light intensity',
+        description: 'Light freezing drizzle',
         emoji: '🌧️❄️',
         icon: icon.freezingDrizzle
     },
     {
         code: 57,
-        description: 'Freezing Drizzle: Dense intensity',
+        description: 'Dense freezing drizzle',
         emoji: '🌧️❄️',
         icon: icon.freezingDrizzle
     },
     {
         code: 61,
-        description: 'Rain: Slight intensity',
+        description: 'Slight rain',
         emoji: '💦',
         icon: icon.rain
     },
     {
         code: 63,
-        description: 'Rain: Moderate intensity',
+        description: 'Moderate rain',
         emoji: '💦',
         icon: icon.rain
     },
     {
         code: 65,
-        description: 'Rain: Heavy intensity',
+        description: 'Heavy rain',
         emoji: '💦',
         icon: icon.rain
     },
     {
         code: 66,
-        description: 'Freezing Rain: Light intensity',
+        description: 'Light freezing rain',
         emoji: '💦❄️',
         icon: icon.freezingRain
     },
     {
         code: 67,
-        description: 'Freezing Rain: Heavy intensity',
+        description: 'Heavy freezing rain',
         emoji: '💦❄️',
         icon: icon.freezingRain
     },
     {
         code: 71,
-        description: 'Snow fall: Slight intensity',
+        description: 'Slight snow fall',
         emoji: '❄️',
         icon: icon.snow
     },
     {
         code: 73,
-        description: 'Snow fall: Moderate intensity',
+        description: 'Moderate snow fall',
         emoji: '❄️',
         icon: icon.snow
     },
     {
         code: 75,
-        description: 'Snow fall: Heavy intensity',
+        description: 'Heavy snow fall',
         emoji: '❄️',
         icon: icon.snow
     },
     { code: 77, description: 'Snow grains', emoji: '❄️', icon: icon.snow },
     {
         code: 80,
-        description: 'Rain showers: Slight intensity',
+        description: 'Slight rain showers',
         emoji: '☔',
         icon: icon.rain
     },
     {
         code: 81,
-        description: 'Rain showers: Moderate intensity',
+        description: 'Moderate rain showers',
         emoji: '☔',
         icon: icon.rain
     },
     {
         code: 82,
-        description: 'Rain showers: Violent intensity',
+        description: 'Violent rain showers',
         emoji: '☔',
         icon: icon.rain
     },
     {
         code: 85,
-        description: 'Snow showers: Slight intensity',
+        description: 'Slight snow showers',
         emoji: '❄️☔',
         icon: icon.snow
     },
     {
         code: 86,
-        description: 'Snow showers: Heavy intensity',
+        description: 'Heavy snow showers',
         emoji: '❄️☔',
         icon: icon.snow
     },
     {
         code: 95,
-        description: 'Thunderstorm: Slight or moderate',
+        description: 'Thunderstorm ',
         emoji: '⛈️',
         icon: icon.thunderstorm
     },
@@ -186,5 +262,6 @@ const weatherCodeData = [
 
 const weatherDataNotFound = {
     description: 'Not found',
-    icon: ''
+    icon: '',
+    emoji: ''
 };
