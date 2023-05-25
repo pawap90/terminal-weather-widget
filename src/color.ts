@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 
-// https://lospec.com/palette-list/sobeachy8
+// https://lospec.com/palette-list/clement-8
 const colors = {
     yellow:'#fff982',
     white:'#ffffff',
