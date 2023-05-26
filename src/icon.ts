@@ -81,8 +81,7 @@ const snow = palette.lightBlue(`    .      .
   / /_/\\/\\_\\ \\
      _/\\/\\_
      /\\  /\\
-    '      '
-`);
+    '      '`);
 
 const thunderstorm =
     palette.white(`      ____
