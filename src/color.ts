@@ -2,17 +2,16 @@ import chalk from 'chalk';
 
 // https://lospec.com/palette-list/clement-8
 const colors = {
-    yellow:'#fff982',
-    white:'#ffffff',
-    gray:'#63ffba',
-    lightBlue:'#639bff',
+    yellow: '#fff982',
+    white: '#ffffff',
+    gray: '#63ffba',
+    lightBlue: '#639bff',
     pink: '#ff79ae'
 };
 
-export const palette: Record<(keyof typeof colors), chalk.Chalk> = {
-    yellow: chalk.hex(colors.yellow),
-    white: chalk.hex(colors.white),
-    gray: chalk.hex(colors.gray),
-    lightBlue: chalk.hex(colors.lightBlue),
-    pink: chalk.hex(colors.pink)
-};
+export const palette: Record<keyof typeof colors, chalk.Chalk> = Object.assign(
+    {},
+    ...Object.entries(colors).map(([key, value]) => {
+        return { [key]: chalk.hex(value) };
+    })
+);
