@@ -1,7 +1,7 @@
 
 A weather widget for the terminal ⛅️
 
-![image](https://github.com/pawap90/terminal-weather-widget/assets/2507959/d49d8a7b-a762-47e7-9e8c-8e21ef50eb57)
+![image](https://github.com/pawap90/terminal-weather-widget/assets/2507959/9d1166dc-d8ef-4b89-97d6-240ec86e365b)
 
 ## Setup
 
