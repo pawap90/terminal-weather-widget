@@ -2,8 +2,7 @@
 
 import { format } from './layout';
 import { getCurrentWeather } from './weather';
-import { Command } from 'commander';
-const program = new Command();
+import arg from 'arg';
 
 const options = {
     lat: -34.6037,
@@ -12,20 +11,21 @@ const options = {
     updateInterval: 5
 };
 
-program
-    .name('weather')
-    .argument('[lat]', 'latitude', options.lat)
-    .argument('[lon]', 'longitude', options.lon)
-    .argument('[timezone]', 'timezone', options.timezone)
-    .argument('[updateInterval]', 'updateInterval', options.updateInterval)
-    .action((lat, lon, timezone, updateInterval) => {
-        if (lat) options.lat = lat as number;
-        if (lon) options.lon = lon as number;
-        if (timezone) options.timezone = timezone as string;
-        if (updateInterval) options.updateInterval = updateInterval as number;
-    });
+const args = arg({
+    '--lat': Number,
+    '--lon': Number,
+    '--timezone': String,
+    '--updateInterval': Number,
+    '-u': '--updateInterval',
+    '-l': '--lat',
+    '-o': '--lon',
+    '-t': '--timezone'
+});
 
-program.parse(process.argv);
+options.lat = args['--lat'] || options.lat;
+options.lon = args['--lon'] || options.lon;
+options.timezone = args['--timezone'] || options.timezone;
+options.updateInterval = args['--updateInterval'] || options.updateInterval;
 
 printUpdatedWeather();
 
