@@ -1,7 +1,8 @@
 #! /usr/bin/env node
 
+import { Controller } from './controller';
 import { format } from './layout';
-import { getCurrentWeather } from './weather';
+import { getCurrentWeather, getForecast } from './weather';
 import arg from 'arg';
 
 const options = {
@@ -27,6 +28,8 @@ options.lon = args['--lon'] || options.lon;
 options.timezone = args['--timezone'] || options.timezone;
 options.updateInterval = args['--updateInterval'] || options.updateInterval;
 
+let state: 'weather' | 'forecast' | undefined;
+
 printUpdatedWeather();
 
 if (options.updateInterval < 1)
@@ -34,11 +37,38 @@ if (options.updateInterval < 1)
 
 setInterval(printUpdatedWeather, options.updateInterval * 60 * 1000);
 
+new Controller()
+    .on('f', printForecast)
+    .on('w', printUpdatedWeather)
+    .on('q', () => process.exit())
+    .build();
+
 function printUpdatedWeather() {
+    if (state == 'weather') return;
+
     getCurrentWeather(options.lat, options.lon, options.timezone)
         .then((weatherInfo) => {
             console.clear();
             console.log(format(weatherInfo));
+            printController();
         })
         .catch((err) => console.error(err));
+    state = 'weather';
+}
+
+function printForecast() {
+    if (state == 'forecast') return;
+
+    getForecast(options.lat, options.lon, options.timezone)
+        .then((forecastInfo) => {
+            console.clear();
+            console.log(format(forecastInfo));
+            printController();
+        })
+        .catch((err) => console.error(err));
+    state = 'forecast';
+}
+
+function printController() {
+    console.log('[F] Forecast | [W] Weather | [Q] Quit');
 }
