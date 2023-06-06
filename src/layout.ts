@@ -76,7 +76,7 @@ function formatWeatherData(weatherInfo: WeatherInfo) {
 
 /**
  * Format date.
- * E.g: Wed, May 24, 2023, 08:20 PM
+ * E.g: Wednesday, May 24, 2023
  */
 function formatDate(date: Date): string {
     return palette.gray(
