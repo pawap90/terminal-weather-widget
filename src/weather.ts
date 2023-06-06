@@ -48,6 +48,58 @@ export async function getCurrentWeather(
     return weatherInfo;
 }
 
+export type ForecastInfo = {
+    time: Date;
+    temperatureMin: number;
+    temperatureMax: number;
+    code: number;
+    emoji: string;
+    icon: string;
+    description: string;
+};
+
+type DailyForecastRes = {
+    time: Date[];
+    temperature_2m_max: number[];
+    temperature_2m_min: number[];
+    weathercode: number[];
+};
+
+export async function getForecast(
+    lat: number,
+    lon: number,
+    timezone: string
+): Promise<ForecastInfo[]> {
+    const response = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=false&timezone=${timezone}&daily=temperature_2m_max,temperature_2m_min,weathercode`
+    );
+
+    const data = await response.json();
+
+    const { time, temperature_2m_max, temperature_2m_min, weathercode } =
+        data.daily as DailyForecastRes;
+
+    const dailyForecastInfo: ForecastInfo[] = [];
+
+    for (let i = 0; i < time.length; i++) {
+        const { description, emoji, icon } =
+            weatherCodeData.find((wd) => wd.code == weathercode[i]) ??
+            weatherDataNotFound;
+
+        dailyForecastInfo.push({
+            time: new Date(time[i] + ' 12:00'),
+            temperatureMin: temperature_2m_min[i],
+            temperatureMax: temperature_2m_max[i],
+            code: weathercode[i],
+            emoji,
+            icon,
+            description
+        });
+    }
+
+    return dailyForecastInfo;
+}
+
 type Direction =
     | 'north'
     | 'northEast'
